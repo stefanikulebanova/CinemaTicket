@@ -1,0 +1,59 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<KinoIS.Domain.StripeSettings> Stripe
+@model KinoIS.Domain.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row text-center">
+    <h6>SHOPPING CART</h6>
+</div>
+
+    
+
+<div class="text-center">
+    <hr />
+    <dl class="row text-center">
+        
+        
+            <h3> <b>@Html.DisplayFor(model => model.Owner.Name) @Html.DisplayFor(model => model.Owner.Surname)'s shopping cart</b></h3> 
+        
+    </dl>
+</div>
+
+<div style="border: solid #f7ebf6 25px; padding: 75px; margin-top:10%; border-radius:10%">
+    <h1 style="display:inline;">Tickets: </h1>
+    @if (ViewBag.tickets.Count == 0)
+    {
+        <h4 style="display: inline; color:red;">You don't have any tickets in your cart.</h4>
+    }
+    <ul class="list-group list-group-flush">
+        @foreach(var item in ViewBag.tickets)
+        {
+            <li class="list-group-item row">
+                <div>
+                    Movie: @item.Movie, Quantity: @item.Quantity, Genre: @item.Genre, Price: @item.Price
+                    <a class="btn btn-outline-danger btn-sm" style="margin-left:48%" asp-controller="ShoppingCarts" asp-action="RemoveTicket" asp-route-ticketId="@item.Id" asp-route-scId="@Model.Id">Remove</a>
+                </div>
+            </li>
+            
+        }
+    </ul>
+</div>
+
+<div class="mt-5" style="margin-left: 45%;">
+            <form asp-controller="ShoppingCarts" asp-action="PayOrder" method="post">
+                <article>
+                    <script src="https://checkout.stripe.com/checkout.js"
+                            class="stripe-button"
+                            data-key="@Stripe.Value.PublishableKey"
+                            data-locale="auto"
+                            data-description="KinoIS Application Payment"
+                            data-amount="@(Model.TotalPrice * 100)"
+                            data-label="Pay $@Model.TotalPrice">
+                    </script>
+                </article>
+            </form>
+        
+    </div>

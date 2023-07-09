@@ -1,0 +1,20 @@
+﻿@model ICollection<KinoIS.Domain.Models.Ticket>
+@using KinoIS.Web
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h1 class="mb-5" ">Details about order @ViewBag.orderId</h1>
+
+<h2 style="margin-left: 37%;">Tickets in this order</h2>
+
+<ul class="list-group list-group-flush" style="width:500px; margin-left:27%; border-top:solid black 1px;">
+    @{
+        int i = 0;
+     }
+    @foreach(var item in Model)
+    {
+         i++;
+         <li class="list-group-item row"><b>@i.</b> Movie: @item.Movie, Price: @item.Price, with quantity of: @item.Quantity</li>
+    }
+    <a class="btn btn-outline-danger mt-5 mb-3" href="@Url.Action("DeleteOrder", "Orders", new { orderId = ViewBag.orderId })">Delete</a>
+    <a class="btn btn-outline-primary" href="@Url.Action("CreateInvoice", "Orders", new { orderId = ViewBag.orderId })">Create invoice</a>
+</ul>

@@ -1,0 +1,30 @@
+﻿@model ICollection<KinoIS.Domain.Models.Order>
+
+<h1>All Orders</h1>
+
+@foreach(var item in Model)
+{
+    <li class="row">
+        <div class="col-4" style="border-right: solid gray 1px;">@item.Id</div>
+        <div class="col"><a class="btn btn-outline-primary btn-sm" asp-controller="Orders" asp-action="OrderDetails" asp-route-orderId="@item.Id">View order details</a></div>
+    </li>
+}
+@if(@ViewBag.Role == "Admin")
+{
+    <form action="/Admin/ExportAllOrders" method="get">
+        <div class="form-group col-12">
+            <label for="genre">Genre</label>
+            <select class="form-control" id="genre" name="genre">
+                <option value="notSelected">Select genre</option>
+                @foreach (var genre in ViewBag.Genres)
+                {
+                    <option value="@genre">@genre</option>
+                }
+            </select>
+        </div>
+        <hr/>
+        <div class="form-group col-12">
+            <button type="submit" class="btn btn-primary">Export all orders to Excel</button>
+        </div>
+    </form>
+}

@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to <b class="text-danger">CinemaTicket</b></h1>
+    @if (ViewBag.Role == "Admin")
+    {
+        <p>You can: <a class="btn btn-outline-primary btn-sm" 
+        asp-controller="Admin" asp-action="ImportUsers">Import Users</a></p>
+    } else
+    {
+        <p>Or login as admin to <button disabled="true" class="btn btn-outline-dark btn-sm" 
+        asp-controller="Admin" asp-action="ImportUsers">Import Users</button></p>
+    }
+</div>

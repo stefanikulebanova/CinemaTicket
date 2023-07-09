@@ -1,0 +1,93 @@
+﻿@model IEnumerable<KinoIS.Domain.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col">
+        <h1>Tickets</h1>
+
+        <p id="oc" orderCompleted="@ViewBag.OrderCompleted"></p>
+
+        @if (ViewBag.Role == "Admin")
+        {
+            <p>
+                <a class="btn btn-outline-success" asp-action="Create">Create New</a>
+            </p>
+        }
+    </div>
+
+    <div class="col">
+        <form action="/Tickets/SearchByDate" method="post" class="text-right mb-5">
+            <h3>Filter by date</h3>
+            <input name="date" type="date" />
+            <button type="submit" class="btn btn-outline-dark">Search</button>
+        </form>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Movie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                Each: 
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (ViewBag.Role == "Admin")
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>      
+                }
+
+                <a class="btn btn-outline-primary" asp-action="AddToCart" asp-route-ticketId="@item.Id">Add To Cart</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+  <script>
+    $(function () {
+      if ($("#oc").attr("orderCompleted")) {
+          alert("Your order is completed. Check your email!"); 
+      }
+    });
+  </script>
+}

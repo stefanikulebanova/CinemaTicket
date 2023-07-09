@@ -1,1 +1,2 @@
-# 201526_hw1
+# CinemaTicket 
+.Net Core App with local database
